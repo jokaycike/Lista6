@@ -35,6 +35,7 @@ namespace Lista6.Services
             {
                 return false;
             }
+            return true;
         }
         public List<DadosPessoa> obterTodasPessoas()
         {

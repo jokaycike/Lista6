@@ -9,5 +9,9 @@ namespace Lista6.Services
         public DadosPessoa obterPessoaPorCpf(string cpf);
 
         public void Inserir(DadosPessoa novaPessoa);
+
+        public bool Atualizar(string cpf, DadosPessoa pessoaAtualizada);
+    
+        public bool Remover(string cpf);
     }
 }
