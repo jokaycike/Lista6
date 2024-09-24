@@ -4,9 +4,9 @@ namespace Lista6.Services
 {
     public interface IPessoaRepository
     {
-        public List<DadosPessoa> obterTodasPessoas();
+        public List<DadosPessoa> ObterTodasPessoas();
 
-        public DadosPessoa obterPessoaPorCpf(string cpf);
+        public DadosPessoa ObterPessoaPorCpf(string cpf);
 
         public void Inserir(DadosPessoa novaPessoa);
 

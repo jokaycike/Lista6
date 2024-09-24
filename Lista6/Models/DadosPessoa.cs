@@ -2,9 +2,9 @@
 {
     public class DadosPessoa
     {
-        public string nome {  get; set; }
-        public string cpf {  get; set; }
-        public double peso { get; set; }
-        public double altura { get; set; }
+        public string Nome {  get; set; }
+        public string Cpf {  get; set; }
+        public double Peso { get; set; }
+        public double Altura { get; set; }
     }
 }

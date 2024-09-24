@@ -6,45 +6,48 @@ namespace Lista6.Services
     public class PessoaRepository : IPessoaRepository 
     {
         private static List<DadosPessoa> dadosPessoaList = new List<DadosPessoa>();
-        public PessoaRepository() { }
+
+        public List<DadosPessoa> ObterTodasPessoas()
+        {
+            return dadosPessoaList;
+        }
+        public DadosPessoa ObterPessoaPorCpf(string cpf)
+        {
+            return dadosPessoaList.FirstOrDefault(p => p.Cpf == cpf);
+
+        }
 
         public void Inserir(DadosPessoa novaPessoa)
         {
             dadosPessoaList.Add(novaPessoa);
         }
 
+
+
         public bool Atualizar(string cpf, DadosPessoa pessoaAtualizada) 
         {
-            var pessoaPesquisado = dadosPessoaList.Where(a => a.cpf == cpf).FirstOrDefault();
-            if (pessoaPesquisado is null){
-                return false;
+            var pessoaExistente = dadosPessoaList.Find(p => p.Cpf == cpf);
+            if (pessoaExistente != null) 
+            {
+                pessoaExistente.Nome = pessoaAtualizada.Nome;
+                pessoaExistente.Cpf = pessoaAtualizada.Cpf;
+                pessoaExistente.Peso = pessoaAtualizada.Peso;
+                pessoaExistente.Altura = pessoaAtualizada.Altura;
+                return true;
             }
-            pessoaPesquisado.nome = pessoaAtualizada.nome;
-            pessoaPesquisado.cpf = pessoaAtualizada.cpf;
-            pessoaPesquisado.peso = pessoaAtualizada.peso;
-            pessoaPesquisado.altura = pessoaAtualizada.altura;
-
-            return true;
+            return false;
         }
 
         public bool Remover(string cpf)
         {
-            var pessoaPesquisado = dadosPessoaList.Where(a => a.cpf == cpf).FirstOrDefault();
+            var pessoaExistente = dadosPessoaList.Find(p => p.Cpf == cpf);
             
-            if (pessoaPesquisado is null)
-            {
-                return false;
+            if (pessoaExistente != null)
+            { 
+                dadosPessoaList.Remove(pessoaExistente);
+                return true;
             }
-            return true;
-        }
-        public List<DadosPessoa> obterTodasPessoas()
-        {
-            return dadosPessoaList;
-        }
-
-        public DadosPessoa obterPessoaPorCpf(string cpf)
-        {
-            return dadosPessoaList.Where(a => a.cpf == cpf).FirstOrDefault();
+            return false;
         }
     }
 }

@@ -5,17 +5,19 @@ namespace Lista6.Models
     public class NovaPessoa
     {
         [Required(ErrorMessage = "Obrigatório")]
-        [MaxLength(10, ErrorMessage = "Maximo 10 letras")]
-        public string nome { get; set; }
+        [MaxLength(100, ErrorMessage = "Maximo 100 caracteres")]
+        public string Nome { get; set; }
 
         [Required(ErrorMessage = "Obrigatório")]
-        public string cpf {  get; set; }
+        [MinLength(11, ErrorMessage = "CPF deve ter pelo manos 11 dígitos")]
+        [MaxLength(14, ErrorMessage = "CPF deve ter no máximo 14 dígitos")]
+        public string Cpf {  get; set; }
 
         [Required(ErrorMessage = "Obrigatório")]
-        public double peso { get; set; }
+        public double Peso { get; set; }
 
         [Required(ErrorMessage = "Obrigatório")]
-        public double altura { get; set; }
+        public double Altura { get; set; }
 
     }
 }

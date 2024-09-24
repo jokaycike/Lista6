@@ -12,11 +12,9 @@ namespace Lista6.Controllers
     public class PessoaController : ControllerBase
     {
         private readonly IPessoaRepository _pessoaRepository;
-        private static List<DadosPessoa> dadosPessoaList = new List<DadosPessoa>();
-
-        public PessoaController(IActionResult pessoaRepository)
+        public PessoaController(IPessoaRepository pessoaRepository)
         {
-            _pessoaRepository = (IPessoaRepository?)pessoaRepository;
+            _pessoaRepository = pessoaRepository;
         }
 
         [HttpPost]
@@ -28,67 +26,61 @@ namespace Lista6.Controllers
                 return BadRequest(ModelState);
             }
 
-            _pessoaRepository.Inserir(new DadosPessoa()
+            var novaPessoa = new DadosPessoa
             {
-               nome = dados.nome,
-               cpf = dados.cpf,
-               peso = dados.peso,
-               altura = dados.altura
-            });
+               Nome = dados.Nome,
+               Cpf = dados.Cpf,
+               Peso = dados.Peso,
+               Altura = dados.Altura
+            };
 
-            return Ok($"Aluno (a) {dados.nome} inserido com sucesso.");
+            _pessoaRepository.Inserir(novaPessoa);
+
+            return Ok($"Aluno (a) {dados.Nome} inserido com sucesso.");
         }
 
-        [HttpDelete]
-        [Route("Remover")]
+        [HttpDelete("remover/{cpf}")]
         public IActionResult Remover(string cpf)
         {
-            var pessoaPesquisada = dadosPessoaList.Where(a => a.cpf == cpf).FirstOrDefault();
-        
-            if(pessoaPesquisada is null)
+            if (!_pessoaRepository.Remover(cpf))
             {
-                return NotFound($"Aluno com cpf {cpf} não encontrado.");
+                return NotFound($"Aluno com CPF {cpf} não encontrado.");
             }
 
-            dadosPessoaList.Remove(pessoaPesquisada);
             return NoContent();
         }
 
 
-        [HttpPut]
-        [Route("Atualizar/{cpf}")]
+        [HttpPut("atualizar/{cpf}")]
         public IActionResult Atualizar(string cpf, DadosPessoa pessoaAtualizada)
         {
-            var pessoaPesquisada = dadosPessoaList.Where(a => a.cpf == cpf).FirstOrDefault();
-        
-            pessoaPesquisada.nome = pessoaAtualizada.nome;
-            pessoaPesquisada.cpf =  pessoaAtualizada.cpf;
-            pessoaPesquisada.peso = pessoaAtualizada.peso;
-            pessoaPesquisada.altura = pessoaAtualizada.altura;
-        
+            if (!_pessoaRepository.Atualizar(cpf, pessoaAtualizada))
+            {
+                return NotFound($"Aluno com CPF {cpf} não encntrado");
+            }
             return NoContent();
         }
 
-        [HttpGet]
-        [Route("ObterPorCpf")]
+        
+        [HttpGet("ObterPorCpf")]
 
         public IActionResult ObterPorCpf(string cpf)
         {
-            var pessoaPesquisada = _pessoaRepository.obterPessoaPorCpf(cpf);
+            var pessoa = _pessoaRepository.ObterPessoaPorCpf(cpf);
 
-            if(pessoaPesquisada is null)
+            if(pessoa == null)
             {
                 return NotFound($"Pessoa com cpf {cpf} não encontrado.");
             }
 
-            return Ok(pessoaPesquisada);
+            return Ok(pessoa);
         }
 
-        [HttpGet]
-        [Route("ObterTodos")]
+        
+        [HttpGet("obterTodos")]
         public IActionResult ObterTodos()
         {
-            return Ok(_pessoaRepository.obterTodasPessoas());
+            return Ok(_pessoaRepository.ObterTodasPessoas());
         }
     }
 }
