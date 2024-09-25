@@ -49,5 +49,20 @@ namespace Lista6.Services
             }
             return false;
         }
+
+        public List<DadosPessoa> PessoaIMCBom()
+        {
+            return dadosPessoaList
+                            .Where(p => (p.Peso / (p.Altura * p.Altura)) >= 18 && (p.Peso / (p.Altura * p.Altura)) < 24)
+                            .ToList();
+        }
+
+        public List<DadosPessoa> PorNome(string nome)
+        {
+            return dadosPessoaList
+                .Where(p => p.Nome.Contains(nome, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+        }
     }
 }

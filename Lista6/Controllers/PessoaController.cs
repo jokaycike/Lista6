@@ -82,5 +82,21 @@ namespace Lista6.Controllers
         {
             return Ok(_pessoaRepository.ObterTodasPessoas());
         }
+
+        
+        [HttpGet("pessoasIMCBom")]
+
+        public IActionResult PessoaIMCBom()
+        {
+            var pessoasIMCBom = _pessoaRepository.PessoaIMCBom();
+            return Ok(pessoasIMCBom);
+        }
+
+        [HttpGet("porNome/{nome}")]
+        public IActionResult PorNome(string nome)
+        {
+            var pessoas = _pessoaRepository.PorNome(nome);
+            return Ok(pessoas);
+        }
     }
 }

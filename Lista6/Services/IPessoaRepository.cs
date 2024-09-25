@@ -11,7 +11,11 @@ namespace Lista6.Services
         public void Inserir(DadosPessoa novaPessoa);
 
         public bool Atualizar(string cpf, DadosPessoa pessoaAtualizada);
-    
+
         public bool Remover(string cpf);
+
+        public List<DadosPessoa> PessoaIMCBom();
+
+        public List<DadosPessoa> PorNome(string nome);
     }
 }
